@@ -6,6 +6,10 @@ company_ids = Company.all.pluck(:id)
 PORTFOLIO_SIZE = 40
 WEIGHT = 2.5
 
+# Assuming one portfolio per client.
+# Data models would need to change if we want to allow a client to have
+#   multiple portfolios.
+
 client_ids.each do |client_id|
   next if Portfolio.exists?(client_id: client_id)
 

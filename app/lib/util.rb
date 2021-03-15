@@ -15,4 +15,22 @@ module Util
 
     ints
   end
+
+  def nearest_prior_date(target_date:, dates:, presorted: false)
+    # Given a list of dates (presorted, or we sort if not),
+    #   return the closest date which is <= target_date.
+
+    dates.sort! unless presorted
+
+    return if dates.first > target_date
+
+    selected_date = target_date
+    dates.each do |dt|
+      return dt if dt >= target_date
+
+      selected_date = dt
+    end
+
+    selected_date
+  end
 end

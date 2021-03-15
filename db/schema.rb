@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_14_005054) do
+ActiveRecord::Schema.define(version: 2021_03_15_205958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "asset_performances", force: :cascade do |t|
+    t.bigint "company_id"
+    t.date "ticker_date", null: false
+    t.decimal "return_1_day", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "return_30_days"
+    t.decimal "return_1_cal_mo"
+    t.decimal "return_mtd"
+    t.decimal "return_ytd"
+    t.index ["company_id", "ticker_date"], name: "index_asset_performances_on_company_id_and_ticker_date", unique: true
+    t.index ["company_id"], name: "index_asset_performances_on_company_id"
+    t.index ["ticker_date"], name: "index_asset_performances_on_ticker_date"
+  end
 
   create_table "client_notifications", force: :cascade do |t|
     t.string "uuid", limit: 36, null: false
@@ -53,6 +68,18 @@ ActiveRecord::Schema.define(version: 2021_03_14_005054) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "portfolio_performances", force: :cascade do |t|
+    t.bigint "portfolio_id"
+    t.decimal "twr_calendar_month"
+    t.decimal "twr_30_days"
+    t.date "period_end", null: false
+    t.jsonb "assets_data", default: "{}", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["portfolio_id", "period_end"], name: "index_portfolio_performances_on_portfolio_id_and_period_end", unique: true
+    t.index ["portfolio_id"], name: "index_portfolio_performances_on_portfolio_id"
+  end
+
   create_table "portfolios", force: :cascade do |t|
     t.bigint "client_id", null: false
     t.bigint "company_id", null: false
@@ -66,7 +93,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_005054) do
 
   create_table "timeseries", force: :cascade do |t|
     t.string "symbol", limit: 20, null: false
-    t.date "ticker_date"
+    t.date "ticker_date", null: false
     t.decimal "open", precision: 12, scale: 4
     t.decimal "high", precision: 12, scale: 4
     t.decimal "low", precision: 12, scale: 4
@@ -74,13 +101,19 @@ ActiveRecord::Schema.define(version: 2021_03_14_005054) do
     t.bigint "volume"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id", null: false
+    t.index ["company_id", "ticker_date"], name: "index_timeseries_on_company_id_and_ticker_date", unique: true
+    t.index ["company_id"], name: "index_timeseries_on_company_id"
     t.index ["symbol", "ticker_date"], name: "index_timeseries_on_symbol_and_ticker_date", unique: true
     t.index ["symbol"], name: "index_timeseries_on_symbol"
     t.index ["ticker_date"], name: "index_timeseries_on_ticker_date"
   end
 
+  add_foreign_key "asset_performances", "companies"
   add_foreign_key "client_notifications", "clients"
   add_foreign_key "client_notifications", "notifications"
+  add_foreign_key "portfolio_performances", "portfolios"
   add_foreign_key "portfolios", "clients"
   add_foreign_key "portfolios", "companies"
+  add_foreign_key "timeseries", "companies"
 end

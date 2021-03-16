@@ -77,6 +77,7 @@ With that token, form the other API requests with header bearer entry.
 #### Admin API
 
 Show a Notification
+![Show a Notification](data/screenshots/admin_view_notification.png "Show a Notification")
 
 ```bash
 curl --request GET \
@@ -84,7 +85,8 @@ curl --request GET \
   --header 'authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX3V1aWQiOiIxYWJjMzRhYS1kYTgyLTRiYzUtOTdmNy04YTBkMTI1MzdmZTIifQ.nZ6zuxdD0_sUo90CfgZT0KRht-4p9SaEFhPS5PAb4t4'
 ```
 
-Post a Notification
+Create a Notification
+![Create a Notification](data/screenshots/admin_create_notification.png "Create a Notification") 
 
 ```bash
 curl --request POST \
@@ -100,17 +102,10 @@ curl --request POST \
 }'
 ```
 
-List All Notifications
-
-```bash
-curl --request GET \
-  --url http://localhost:3000/api/admin/notifications \
-  --header 'authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX3V1aWQiOiIxYWJjMzRhYS1kYTgyLTRiYzUtOTdmNy04YTBkMTI1MzdmZTIifQ.nZ6zuxdD0_sUo90CfgZT0KRht-4p9SaEFhPS5PAb4t4'
-```
-
 #### Client API
 
 Show a Notification
+![Show a Notification](data/screenshots/client_show_notification_detail.png "Show a Notification")
 
 ```bash
 curl --request GET \
@@ -119,6 +114,8 @@ curl --request GET \
 ```
 
 List All Notification Alerts (without the content; that should be retrieved via example above)
+![List All Notification Alerts](data/screenshots/client_show_notification_alerts.png "List All Notification Alerts")
+
 
 ```bash
 curl --request GET \
@@ -127,6 +124,7 @@ curl --request GET \
 ```
 
 Show the Portfolio - TWR calculations and list of all companies in portfolio
+![Show the Portfolio](data/screenshots/client_view_portfolio.png "Show the Portfolio")
 
 ```bash
 curl --request GET \

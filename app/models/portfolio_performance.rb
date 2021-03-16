@@ -1,3 +1,3 @@
 class PortfolioPerformance < ApplicationRecord
-  belongs_to :portfolio
+  belongs_to :client
 end

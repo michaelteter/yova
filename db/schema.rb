@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_205958) do
+ActiveRecord::Schema.define(version: 2021_03_16_013816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2021_03_15_205958) do
   create_table "asset_performances", force: :cascade do |t|
     t.bigint "company_id"
     t.date "ticker_date", null: false
-    t.decimal "return_1_day", null: false
+    t.decimal "return_1_day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "return_30_days"
@@ -69,15 +69,18 @@ ActiveRecord::Schema.define(version: 2021_03_15_205958) do
   end
 
   create_table "portfolio_performances", force: :cascade do |t|
-    t.bigint "portfolio_id"
-    t.decimal "twr_calendar_month"
+    t.decimal "twr_1_cal_mo"
     t.decimal "twr_30_days"
     t.date "period_end", null: false
     t.jsonb "assets_data", default: "{}", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["portfolio_id", "period_end"], name: "index_portfolio_performances_on_portfolio_id_and_period_end", unique: true
-    t.index ["portfolio_id"], name: "index_portfolio_performances_on_portfolio_id"
+    t.decimal "twr_mtd"
+    t.decimal "twr_ytd"
+    t.decimal "twr_1_day"
+    t.bigint "client_id"
+    t.index ["client_id", "period_end"], name: "index_portfolio_performances_on_client_id_and_period_end", unique: true
+    t.index ["client_id"], name: "index_portfolio_performances_on_client_id"
   end
 
   create_table "portfolios", force: :cascade do |t|
@@ -112,7 +115,7 @@ ActiveRecord::Schema.define(version: 2021_03_15_205958) do
   add_foreign_key "asset_performances", "companies"
   add_foreign_key "client_notifications", "clients"
   add_foreign_key "client_notifications", "notifications"
-  add_foreign_key "portfolio_performances", "portfolios"
+  add_foreign_key "portfolio_performances", "clients"
   add_foreign_key "portfolios", "clients"
   add_foreign_key "portfolios", "companies"
   add_foreign_key "timeseries", "companies"

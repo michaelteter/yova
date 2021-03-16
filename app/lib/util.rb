@@ -22,7 +22,7 @@ module Util
 
     dates.sort! unless presorted
 
-    return if dates.first > target_date
+    return if dates.first > target_date # target_date precedes the available data
 
     selected_date = target_date
     dates.each do |dt|

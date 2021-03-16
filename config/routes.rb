@@ -4,7 +4,10 @@ Rails.application.routes.draw do
 
   get 'foo', to: 'admin#foo'
 
-  resources :clients, param: :uuid, only: %i[show] do
-    resources :portfolio_performances, param: :period_end, only: %i[show]
+  resources :clients, param: :uuid, only: :show do
+    resources :client_notifications, param: :uuid, only: :show, path: 'notifications'
+    resources :portfolio_performances, param: :period_end, only: :show
   end
+
+  resources :notifications
 end

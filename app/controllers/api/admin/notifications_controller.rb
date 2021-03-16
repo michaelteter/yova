@@ -6,9 +6,7 @@ module Api
       protect_from_forgery with: :null_session
 
       def index
-        notif_alerts = NotificationAlert.all
-
-        render json: notif_alerts.to_json(include: :notifications)
+        render json: NotificationAlert.all.to_json(include: :notifications)
       end
 
       def show
@@ -18,12 +16,6 @@ module Api
       end
 
       def create
-        # gather notification details
-        # data = params.require(
-        # create notification_alert
-        # create notifications for every client in target list
-        # launch notification_alert job
-
         notification_alert_id =
           NotificationService.create_and_alert_clients(params.permit(:purpose, :message, client_ids: []))
 

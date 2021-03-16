@@ -22,12 +22,20 @@ make install
 Seeding will populate a reasonable set of sample data, including real companies and timeseries.
 
 The Nasdaq 100 (102!) list comprises the Company data, and Alphavantage is used to pull corresponding
-data.
+data.  
 
-Note that the Alphavantage step takes about 25 minutes the first time.
+Data has already been pulled and stored in json files under `app_root/data/historical_timeseries`.
+There is currently no logic in place to fetch and append newer timeseries, so the seeder will
+just load the existing file rather than fetch from Alphavantage.  Therefore, to demonstrate the 
+Alphavantage fetch, one or more timeseries data files must be deleted.
 
-Successive calls to db:seed either do nothing or fill in gaps (which shouldn't exist).  It currently does
-not update the timeseries data.
+To fetch from Alphavantage requires an API key which they provide.  This key must be saved in
+`app_root/alphavantage`, or it can be passed as an environment variable `ALPHAVANTAGE_KEY`.
+
+Note that the Alphavantage step takes about 25 minutes to load 102 symbol timeseries.
+
+In general, successive calls to db:seed will skip sections where data already exists.
+It is safe to call `db:seed` multiple times.
 
 ```bash
 bundle exec rails db:seed
@@ -36,10 +44,6 @@ bundle exec rails db:seed
 ### Start Server and Services
 
 To run background jobs, ensure Redis and Sidekiq are running
-
-```bash
-bundle exec rails s
-```
 
 ```bash
 bundle exec sidekiq
@@ -52,7 +56,14 @@ View [Sidekiq status and cron jobs](http://localhost:3000/_sidekiq) at
 
 ## Running/Testing
 
+```bash
+bundle exec rails s
+```
+
 ### Authentication
+
+To run without JWT, set `DISABLE_JWT` environment variable before running Rails.  This will only apply
+when Rails is in development mode.  By default, JWT will be enabled.
 
 All endpoints require authentication except `/_sidekiq` (which obviously needs it, but that's for another time)
 and `/api/v1/authenticate`
@@ -69,15 +80,15 @@ curl --request POST \
 }'
 ```
 
-Usernames and passwords are not stored; for this demo, the "username" should be a UUID of a
-Client record.  Password must be present but is not used.
+Usernames and passwords are not stored; for this demo, the "username" should be a UUID.  
+Password must be present but is not used.  Anything resembling a UUID and password will work.
 
 With that token, form the other API requests with header bearer entry.
 
 #### Admin API
 
-Show a Notification
-![Show a Notification](data/screenshots/admin_view_notification.png "Show a Notification")
+Show All Notifications
+![Show All Notifications](data/screenshots/admin_notifications_index.png "Show All Notification")
 
 ```bash
 curl --request GET \

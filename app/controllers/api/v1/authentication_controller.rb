@@ -18,7 +18,6 @@ module Api
 
         render json: { token: token }, status: :created
       end
-
     end
   end
 end

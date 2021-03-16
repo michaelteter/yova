@@ -1,6 +1,9 @@
 FactoryBot.define do
-  factory :notification_alert do
-    purpose { 'twr_updated' }
-    message { 'You have an unread notification.' }
+  factory :notification do
+    uuid { SecureRandom::uuid }
+    notification_alert_id { nil }
+    client_id { nil }
+    notified_at { nil }
+    fetched_at { nil }
   end
 end

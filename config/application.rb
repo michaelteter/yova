@@ -19,7 +19,8 @@ module Yova
     config.x.data_providers.alphavantage_key =
       ENV['ALPHAVANTAGE_KEY'] || File.read(Rails.root.join('alphavantage'))&.strip
 
-    config.x.hmac_secret = ENV['hmac_secret']
-    config.x.hmac_algo = 'HS256'
+    config.x.hmac_secret = ENV['HMAC_SECRET']
+    config.x.hmac_algo   = 'HS256'
+    config.x.disable_jwt = ENV['DISABLE_JWT']
   end
 end

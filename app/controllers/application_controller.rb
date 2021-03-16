@@ -2,8 +2,8 @@ class ApplicationController < ActionController::Base
   include ActionController::HttpAuthentication::Token
 
   def authenticate_user!
-    # For easier dev testing, uncomment this auth bypass below.
-    # return true
+    # For development testing
+    return if Rails.env.development? && Rails.configuration.x.disable_jwt
 
     enc_token, _options = token_and_options(request)
     user_uuid = AuthenticationService.validate(enc_token)

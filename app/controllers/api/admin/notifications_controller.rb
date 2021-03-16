@@ -25,7 +25,7 @@ module Api
         notification_alert_id =
           NotificationAdminService.create_and_alert_clients(params.permit(%i[purpose message client_ids]))
 
-        status, data = if notification_alert_id
+        data, status = if notification_alert_id
                          [{ notification_alert_id: notification_alert_id }, 201]
                        else
                          [{ error: 'creation failed' }, 500]

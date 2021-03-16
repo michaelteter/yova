@@ -8,6 +8,8 @@ REDIS_NAMESPACE = 'yova_api'
 
 DEFAULT_CONFIG = { url: REDIS_URL, namespace: REDIS_NAMESPACE, id: nil }.freeze
 
+Rails.configuration.active_job.queue_adapter = :sidekiq
+
 Sidekiq.configure_server { |cfg| cfg.redis = DEFAULT_CONFIG }
 Sidekiq.configure_client { |cfg| cfg.redis = DEFAULT_CONFIG }
 

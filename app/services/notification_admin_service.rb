@@ -5,14 +5,14 @@ module NotificationAdminService
 
   def create_and_alert_clients(params)
     notification_alert_id = create(params)
-    alert_clients(notification_alert_id: notification_alert_id, as_job: true) if notification_alert_id
+    alert_clients(notification_alert_id: notification_alert_id) if notification_alert_id
 
     notification_alert_id
   end
 
   def create(params)
     NotificationAlert.transaction do
-      na = NotificationAlert.create(params.slice(%i[purpose message]))
+      na = NotificationAlert.create(params)
       params[:client_ids]&.each do |client_id|
         client = Client.find(client_id)
         Notification.create(notification_alert: na, client: client, uuid: SecureRandom::uuid)
@@ -25,7 +25,7 @@ module NotificationAdminService
   def alert_clients(notification_alert_id:, as_job: false)
     # notify clients as appropriate (email or web_hook if configured in Client)
 
-    Notifications::AlertWorker.perform_now(notification_alert_id: notification_alert_id) and return if as_job
+    Notifications::AlertWorker.perform_async(notification_alert_id: notification_alert_id) and return if as_job
 
     na = NotificationAlert.find(notification_alert_id)
 

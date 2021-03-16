@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
     namespace :v1 do
       resources :clients, param: :uuid, only: :show do
-        resources :notifications, param: :uuid, only: :show
-        resources :portfolios, only: :show
+        resources :notifications, param: :uuid, only: %i[index show]
+        resource :portfolios, only: :show, path: 'portfolio'
       end
     end
   end

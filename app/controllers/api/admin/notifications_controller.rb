@@ -25,7 +25,7 @@ module Api
         # launch notification_alert job
 
         notification_alert_id =
-          NotificationAdminService.create_and_alert_clients(params.permit(%i[purpose message client_ids]))
+          NotificationService.create_and_alert_clients(params.permit(:purpose, :message, client_ids: []))
 
         data, status =
           if notification_alert_id

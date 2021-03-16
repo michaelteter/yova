@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :admin do
       resources :notifications, param: :id
-      resources :client_notifications, param: :id
     end
 
     namespace :v1 do

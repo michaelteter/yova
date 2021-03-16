@@ -1,3 +1,4 @@
 class Notification < ApplicationRecord
-  has_many :client_notifications
+  belongs_to :notification_alert
+  belongs_to :client
 end

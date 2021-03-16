@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :client_notification do
+  factory :notification do
     uuid { SecureRandom::uuid }
     notification { nil }
     client { nil }

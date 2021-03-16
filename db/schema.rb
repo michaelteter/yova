@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_16_013816) do
+ActiveRecord::Schema.define(version: 2021_03_16_114257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,18 +28,6 @@ ActiveRecord::Schema.define(version: 2021_03_16_013816) do
     t.index ["company_id", "ticker_date"], name: "index_asset_performances_on_company_id_and_ticker_date", unique: true
     t.index ["company_id"], name: "index_asset_performances_on_company_id"
     t.index ["ticker_date"], name: "index_asset_performances_on_ticker_date"
-  end
-
-  create_table "client_notifications", force: :cascade do |t|
-    t.string "uuid", limit: 36, null: false
-    t.bigint "notification_id"
-    t.bigint "client_id"
-    t.datetime "notified_at"
-    t.datetime "fetched_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["client_id"], name: "index_client_notifications_on_client_id"
-    t.index ["notification_id"], name: "index_client_notifications_on_notification_id"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -61,11 +49,23 @@ ActiveRecord::Schema.define(version: 2021_03_16_013816) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "notifications", force: :cascade do |t|
+  create_table "notification_alerts", force: :cascade do |t|
     t.string "purpose"
     t.string "message", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "uuid", limit: 36, null: false
+    t.bigint "client_id"
+    t.datetime "notified_at"
+    t.datetime "fetched_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "notification_alert_id"
+    t.index ["client_id"], name: "index_notifications_on_client_id"
+    t.index ["notification_alert_id"], name: "index_notifications_on_notification_alert_id"
   end
 
   create_table "portfolio_performances", force: :cascade do |t|
@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(version: 2021_03_16_013816) do
   end
 
   add_foreign_key "asset_performances", "companies"
-  add_foreign_key "client_notifications", "clients"
-  add_foreign_key "client_notifications", "notifications"
+  add_foreign_key "notifications", "clients"
+  add_foreign_key "notifications", "notification_alerts"
   add_foreign_key "portfolio_performances", "clients"
   add_foreign_key "portfolios", "clients"
   add_foreign_key "portfolios", "companies"

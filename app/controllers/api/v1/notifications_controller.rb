@@ -1,6 +1,6 @@
 module Api
   module V1
-    class ClientNotificationsController < ApplicationController
+    class NotificationsController < ApplicationController
       def show
         client = Client.find_by(uuid: params[:client_uuid])
         notification = Notification.find_by(uuid: params[:uuid])

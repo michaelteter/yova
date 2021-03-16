@@ -5,7 +5,7 @@ information to business partners via an API*
 
 ## System Setup
 
-###Clone the project:
+###Clone the project
 
 ```bash
 git clone git@github.com:michaelteter/yova.git; cd yova

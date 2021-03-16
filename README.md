@@ -54,7 +54,7 @@ bundle exec sidekiq
 View [Sidekiq status and cron jobs](http://localhost:3000/_sidekiq) at 
 `http://localhost:3000/_sidekiq`
 
-## Running/Testing
+## Running
 
 ```bash
 bundle exec rails s
@@ -142,3 +142,7 @@ curl --request GET \
   --url http://localhost:3000/api/v1/clients/1abc34aa-da82-4bc5-97f7-8a0d12537fe2/portfolio \
   --header 'authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX3V1aWQiOiIxYWJjMzRhYS1kYTgyLTRiYzUtOTdmNy04YTBkMTI1MzdmZTIifQ.nZ6zuxdD0_sUo90CfgZT0KRht-4p9SaEFhPS5PAb4t4'
 ```
+
+### Tests
+
+There are few tests, and they are out of date (broken).  Coverage is very low... very.

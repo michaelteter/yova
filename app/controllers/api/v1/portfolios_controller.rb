@@ -1,6 +1,8 @@
 module Api
   module V1
     class PortfoliosController < ApplicationController
+      before_action :authenticate_user!
+
       def show
         client = Client.find_by(params[:uuid])
         render json: nil, status: 404 and return unless client

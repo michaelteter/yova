@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     end
 
     namespace :v1 do
+      post 'authenticate', to: 'authentication#create'
+
       resources :clients, param: :uuid, only: :show do
         resources :notifications, param: :uuid, only: %i[index show]
         resource :portfolios, only: :show, path: 'portfolio'

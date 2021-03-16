@@ -1,6 +1,8 @@
 module Api
   module V1
     class NotificationsController < ApplicationController
+      before_action :authenticate_user!
+
       def index
         return unless client = load_client
 

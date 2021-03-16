@@ -1,6 +1,8 @@
 module Api
   module Admin
     class NotificationsController < ApplicationController
+      before_action :authenticate_user!
+
       protect_from_forgery with: :null_session
 
       def index
@@ -25,11 +27,12 @@ module Api
         notification_alert_id =
           NotificationAdminService.create_and_alert_clients(params.permit(%i[purpose message client_ids]))
 
-        data, status = if notification_alert_id
-                         [{ notification_alert_id: notification_alert_id }, 201]
-                       else
-                         [{ error: 'creation failed' }, 500]
-                       end
+        data, status =
+          if notification_alert_id
+            [{ notification_alert_id: notification_alert_id }, :created]
+          else
+            [{ error: 'creation failed' }, :unprocessable_entity]
+          end
 
         render json: data, status: status
       end
